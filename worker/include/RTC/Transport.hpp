@@ -168,7 +168,6 @@ namespace RTC
 
 		/* Pure virtual methods inherited from RTC::Consumer::Listener. */
 	public:
-		void OnConsumerPreSendRtpPacket(RTC::Consumer* consumer, RTC::RtpPacket* packet) override;
 		void OnConsumerSendRtpPacket(RTC::Consumer* consumer, RTC::RtpPacket* packet) override;
 		void OnConsumerRetransmitRtpPacket(RTC::Consumer* consumer, RTC::RtpPacket* packet) override;
 		void OnConsumerKeyFrameRequested(RTC::Consumer* consumer, uint32_t mappedSsrc) override;
@@ -254,7 +253,7 @@ namespace RTC
 #endif
 		// Others.
 		bool destroying{ false };
-		struct RTC::RtpHeaderExtensionIds rtpHeaderExtensionIds;
+		struct RTC::RtpHeaderExtensionIds recvRtpHeaderExtensionIds;
 		RTC::RtpListener rtpListener;
 		RTC::SctpListener sctpListener;
 		RTC::RateCalculator recvTransmission;

@@ -1162,8 +1162,8 @@ namespace RTC
 				{
 					extenLen = 3u;
 
-					auto nowMs       = DepLibUV::GetTimeMs();
-					auto absSendTime = Utils::Time::TimeMsToAbsSendTime(nowMs);
+					// NOTE: Add value 0. The sending Transport will update it.
+					uint32_t absSendTime{ 0u };
 
 					Utils::Byte::Set3Bytes(bufferPtr, 0, absSendTime);
 

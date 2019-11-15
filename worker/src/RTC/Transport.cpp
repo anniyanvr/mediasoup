@@ -322,24 +322,24 @@ namespace RTC
 		}
 
 		// Add headerExtensionIds.
-		jsonObject["rtpHeaderExtensions"] = json::object();
-		auto jsonRtpHeaderExtensionsIt    = jsonObject.find("rtpHeaderExtensions");
+		jsonObject["recvRtpHeaderExtensions"] = json::object();
+		auto jsonRtpHeaderExtensionsIt    = jsonObject.find("recvRtpHeaderExtensions");
 
-		if (this->rtpHeaderExtensionIds.mid != 0u)
-			(*jsonRtpHeaderExtensionsIt)["mid"] = this->rtpHeaderExtensionIds.mid;
+		if (this->recvRtpHeaderExtensionIds.mid != 0u)
+			(*jsonRtpHeaderExtensionsIt)["mid"] = this->recvRtpHeaderExtensionIds.mid;
 
-		if (this->rtpHeaderExtensionIds.rid != 0u)
-			(*jsonRtpHeaderExtensionsIt)["rid"] = this->rtpHeaderExtensionIds.rid;
+		if (this->recvRtpHeaderExtensionIds.rid != 0u)
+			(*jsonRtpHeaderExtensionsIt)["rid"] = this->recvRtpHeaderExtensionIds.rid;
 
-		if (this->rtpHeaderExtensionIds.rrid != 0u)
-			(*jsonRtpHeaderExtensionsIt)["rrid"] = this->rtpHeaderExtensionIds.rrid;
+		if (this->recvRtpHeaderExtensionIds.rrid != 0u)
+			(*jsonRtpHeaderExtensionsIt)["rrid"] = this->recvRtpHeaderExtensionIds.rrid;
 
-		if (this->rtpHeaderExtensionIds.absSendTime != 0u)
-			(*jsonRtpHeaderExtensionsIt)["absSendTime"] = this->rtpHeaderExtensionIds.absSendTime;
+		if (this->recvRtpHeaderExtensionIds.absSendTime != 0u)
+			(*jsonRtpHeaderExtensionsIt)["absSendTime"] = this->recvRtpHeaderExtensionIds.absSendTime;
 
-		if (this->rtpHeaderExtensionIds.transportWideCc01 != 0u)
+		if (this->recvRtpHeaderExtensionIds.transportWideCc01 != 0u)
 			(*jsonRtpHeaderExtensionsIt)["transportWideCc01"] =
-			  this->rtpHeaderExtensionIds.transportWideCc01;
+			  this->recvRtpHeaderExtensionIds.transportWideCc01;
 
 		// Add rtpListener.
 		this->rtpListener.FillJson(jsonObject["rtpListener"]);
@@ -480,11 +480,6 @@ namespace RTC
 		if (this->tccServer && this->tccServer->GetAvailableBitrate() != 0u)
 			jsonObject["availableIncomingBitrate"] = this->tccServer->GetAvailableBitrate();
 
-		// TODO
-		// Add availableOutgoingBitrate_2.
-		// if (this->senderBwe)
-		// 	jsonObject["availableOutgoingBitrate_2"] = this->senderBwe->GetAvailableBitrate();
-
 		// Add maxIncomingBitrate.
 		if (this->maxIncomingBitrate != 0u)
 			jsonObject["maxIncomingBitrate"] = this->maxIncomingBitrate;
@@ -587,19 +582,19 @@ namespace RTC
 				auto& producerRtpHeaderExtensionIds = producer->GetRtpHeaderExtensionIds();
 
 				if (producerRtpHeaderExtensionIds.mid != 0u)
-					this->rtpHeaderExtensionIds.mid = producerRtpHeaderExtensionIds.mid;
+					this->recvRtpHeaderExtensionIds.mid = producerRtpHeaderExtensionIds.mid;
 
 				if (producerRtpHeaderExtensionIds.rid != 0u)
-					this->rtpHeaderExtensionIds.rid = producerRtpHeaderExtensionIds.rid;
+					this->recvRtpHeaderExtensionIds.rid = producerRtpHeaderExtensionIds.rid;
 
 				if (producerRtpHeaderExtensionIds.rrid != 0u)
-					this->rtpHeaderExtensionIds.rrid = producerRtpHeaderExtensionIds.rrid;
+					this->recvRtpHeaderExtensionIds.rrid = producerRtpHeaderExtensionIds.rrid;
 
 				if (producerRtpHeaderExtensionIds.absSendTime != 0u)
-					this->rtpHeaderExtensionIds.absSendTime = producerRtpHeaderExtensionIds.absSendTime;
+					this->recvRtpHeaderExtensionIds.absSendTime = producerRtpHeaderExtensionIds.absSendTime;
 
 				if (producerRtpHeaderExtensionIds.transportWideCc01 != 0u)
-					this->rtpHeaderExtensionIds.transportWideCc01 =
+					this->recvRtpHeaderExtensionIds.transportWideCc01 =
 					  producerRtpHeaderExtensionIds.transportWideCc01;
 
 				// Create status response.
@@ -882,7 +877,6 @@ namespace RTC
 					consumer->SetExternallyManagedBitrate();
 
 #ifdef ENABLE_RTC_SENDER_BANDWIDTH_ESTIMATOR
-				// TODO
 				// Create SenderBandwidthEstimator if:
 				// - not already created,
 				// - it's a simulcast or SVC Consumer, and
@@ -1335,11 +1329,11 @@ namespace RTC
 		MS_TRACE();
 
 		// Apply the Transport RTP header extension ids so the RTP listener can use them.
-		packet->SetMidExtensionId(this->rtpHeaderExtensionIds.mid);
-		packet->SetRidExtensionId(this->rtpHeaderExtensionIds.rid);
-		packet->SetRepairedRidExtensionId(this->rtpHeaderExtensionIds.rrid);
-		packet->SetAbsSendTimeExtensionId(this->rtpHeaderExtensionIds.absSendTime);
-		packet->SetTransportWideCc01ExtensionId(this->rtpHeaderExtensionIds.transportWideCc01);
+		packet->SetMidExtensionId(this->recvRtpHeaderExtensionIds.mid);
+		packet->SetRidExtensionId(this->recvRtpHeaderExtensionIds.rid);
+		packet->SetRepairedRidExtensionId(this->recvRtpHeaderExtensionIds.rrid);
+		packet->SetAbsSendTimeExtensionId(this->recvRtpHeaderExtensionIds.absSendTime);
+		packet->SetTransportWideCc01ExtensionId(this->recvRtpHeaderExtensionIds.transportWideCc01);
 
 		auto nowMs = DepLibUV::GetTimeMs();
 
@@ -1962,7 +1956,6 @@ namespace RTC
 		MS_TRACE();
 
 		MS_ASSERT(this->tccClient, "no TransportCongestionClient");
-		// TODO: do it with this->senderBwe.
 
 		std::multimap<uint16_t, RTC::Consumer*> multimapPriorityConsumer;
 		uint16_t totalPriorities{ 0u };
@@ -2086,7 +2079,6 @@ namespace RTC
 		MS_TRACE();
 
 		MS_ASSERT(this->tccClient, "no TransportCongestionClient");
-		// TODO: do it with this->senderBwe.
 
 		uint32_t totalDesiredBitrate{ 0u };
 
@@ -2182,30 +2174,24 @@ namespace RTC
 		  this, producer, mappedSsrc, worstRemoteFractionLost);
 	}
 
-	inline void Transport::OnConsumerPreSendRtpPacket(RTC::Consumer* /*consumer*/, RTC::RtpPacket* packet)
-	{
-		MS_TRACE();
-
-		// TODO: Use senderBwe instead.
-		// Update transport wide sequence number if present.
-		if (this->tccClient && packet->UpdateTransportWideCc01(this->transportWideCcSeq + 1))
-			this->transportWideCcSeq++;
-	}
-
 	inline void Transport::OnConsumerSendRtpPacket(RTC::Consumer* /*consumer*/, RTC::RtpPacket* packet)
 	{
 		MS_TRACE();
 
-		// TODO: Use senderBwe instead.
+		// Update abs-send-time if present.
+		packet->UpdateAbsSendTime(DepLibUV::GetTimeMs());
+
 		// Update transport wide sequence number if present.
 		// clang-format off
 		if (
 			this->tccClient &&
 			this->tccClient->GetBweType() == RTC::BweType::TRANSPORT_CC &&
-			packet->HasExtension(static_cast<uint8_t>(RTC::RtpHeaderExtensionUri::Type::TRANSPORT_WIDE_CC_01))
+			packet->UpdateTransportWideCc01(this->transportWideCcSeq + 1)
 		)
 		// clang-format on
 		{
+			this->transportWideCcSeq++;
+
 			auto* tccClient = this->tccClient;
 			webrtc::RtpPacketSendInfo packetInfo;
 
@@ -2263,16 +2249,17 @@ namespace RTC
 		// Update abs-send-time if present.
 		packet->UpdateAbsSendTime(DepLibUV::GetTimeMs());
 
-		// TODO: Use senderBwe instead.
 		// Update transport wide sequence number if present.
 		// clang-format off
 		if (
 			this->tccClient &&
 			this->tccClient->GetBweType() == RTC::BweType::TRANSPORT_CC &&
-			packet->HasExtension(static_cast<uint8_t>(RTC::RtpHeaderExtensionUri::Type::TRANSPORT_WIDE_CC_01))
+			packet->UpdateTransportWideCc01(this->transportWideCcSeq + 1)
 		)
 		// clang-format on
 		{
+			this->transportWideCcSeq++;
+
 			auto* tccClient = this->tccClient;
 			webrtc::RtpPacketSendInfo packetInfo;
 
@@ -2342,7 +2329,6 @@ namespace RTC
 		MS_TRACE();
 
 		MS_ASSERT(this->tccClient, "no TransportCongestionClient");
-		// TODO: do it with this->senderBwe.
 
 		DistributeAvailableOutgoingBitrate();
 		ComputeOutgoingDesiredBitrate();
@@ -2353,7 +2339,6 @@ namespace RTC
 		MS_TRACE();
 
 		MS_ASSERT(this->tccClient, "no TransportCongestionClient");
-		// TODO: do it with this->senderBwe.
 
 		DistributeAvailableOutgoingBitrate();
 
@@ -2560,7 +2545,12 @@ namespace RTC
 		packet->UpdateAbsSendTime(DepLibUV::GetTimeMs());
 
 		// Update transport wide sequence number if present.
-		if (packet->UpdateTransportWideCc01(this->transportWideCcSeq + 1))
+		// clang-format off
+		if (
+			this->tccClient->GetBweType() == RTC::BweType::TRANSPORT_CC &&
+			packet->UpdateTransportWideCc01(this->transportWideCcSeq + 1)
+		)
+		// clang-format on
 		{
 			this->transportWideCcSeq++;
 
@@ -2650,7 +2640,7 @@ namespace RTC
 		  availableBitrate,
 		  previousAvailableBitrate);
 
-		// TODO: Uncomment.
+		// TODO: Uncomment once just SenderBandwidthEstimator is used.
 		// DistributeAvailableOutgoingBitrate();
 		// ComputeOutgoingDesiredBitrate();
 	}

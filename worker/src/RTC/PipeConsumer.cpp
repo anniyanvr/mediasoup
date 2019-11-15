@@ -242,14 +242,11 @@ namespace RTC
 		// Process the packet.
 		if (rtpStream->ReceivePacket(packet))
 		{
-			// Pre-send the packet.
-			this->listener->OnConsumerPreSendRtpPacket(this, packet);
+			// Send the packet.
+			this->listener->OnConsumerSendRtpPacket(this, packet);
 
 			// May emit 'packet' event.
 			EmitPacketEventRtpType(packet);
-
-			// Send the packet.
-			this->listener->OnConsumerSendRtpPacket(this, packet);
 		}
 		else
 		{
@@ -574,12 +571,9 @@ namespace RTC
 	{
 		MS_TRACE();
 
-		// Pre-send the packet.
-		this->listener->OnConsumerPreSendRtpPacket(this, packet);
+		this->listener->OnConsumerRetransmitRtpPacket(this, packet);
 
 		// May emit 'packet' event.
 		EmitPacketEventRtpType(packet, rtpStream->HasRtx());
-
-		this->listener->OnConsumerRetransmitRtpPacket(this, packet);
 	}
 } // namespace RTC
