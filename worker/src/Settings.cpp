@@ -10,7 +10,8 @@
 #include <cerrno>
 #include <iterator> // std::ostream_iterator
 #include <sstream>  // std::ostringstream
-extern "C" {
+extern "C"
+{
 #include <getopt.h>
 }
 

@@ -323,7 +323,7 @@ namespace RTC
 
 		// Add headerExtensionIds.
 		jsonObject["recvRtpHeaderExtensions"] = json::object();
-		auto jsonRtpHeaderExtensionsIt    = jsonObject.find("recvRtpHeaderExtensions");
+		auto jsonRtpHeaderExtensionsIt        = jsonObject.find("recvRtpHeaderExtensions");
 
 		if (this->recvRtpHeaderExtensionIds.mid != 0u)
 			(*jsonRtpHeaderExtensionsIt)["mid"] = this->recvRtpHeaderExtensionIds.mid;

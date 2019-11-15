@@ -7,7 +7,8 @@
 #include <cmath>   // std::ceil()
 #include <cstdio>  // sprintf()
 #include <cstring> // std::memcpy(), std::memmove()
-extern "C" {
+extern "C"
+{
 #include <netstring.h>
 }
 
