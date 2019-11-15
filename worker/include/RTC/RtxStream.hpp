@@ -32,7 +32,7 @@ namespace RTC
 		};
 
 	public:
-		RtxStream(RTC::RtxStream::Params& params);
+		explicit RtxStream(RTC::RtxStream::Params& params);
 		virtual ~RtxStream();
 
 		void FillJson(json& jsonObject) const;

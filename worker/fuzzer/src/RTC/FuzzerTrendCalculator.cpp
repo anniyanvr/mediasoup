@@ -6,13 +6,12 @@
 void Fuzzer::RTC::TrendCalculator::Fuzz(const uint8_t* data, size_t len)
 {
 	::RTC::TrendCalculator trend;
-	uint32_t value;
 	auto now = DepLibUV::GetTimeMs();
 	size_t offset{ 0u };
 
 	while (len >= 4u)
 	{
-		value = Utils::Byte::Get4Bytes(data, offset);
+		auto value = Utils::Byte::Get4Bytes(data, offset);
 
 		trend.Update(value, now);
 		trend.GetValue();
