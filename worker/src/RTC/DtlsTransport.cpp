@@ -1337,13 +1337,13 @@ namespace RTC
 			}
 		}
 
-		auto* srtpMaterial{ new uint8_t[srtpMasterLength * 2] };
+		auto* srtpMaterial = new uint8_t[srtpMasterLength * 2];
 		uint8_t* srtpLocalKey{ nullptr };
 		uint8_t* srtpLocalSalt{ nullptr };
 		uint8_t* srtpRemoteKey{ nullptr };
 		uint8_t* srtpRemoteSalt{ nullptr };
-		auto* srtpLocalMasterKey{ new uint8_t[srtpMasterLength] };
-		auto* srtpRemoteMasterKey{ new uint8_t[srtpMasterLength] };
+		auto* srtpLocalMasterKey  = new uint8_t[srtpMasterLength];
+		auto* srtpRemoteMasterKey = new uint8_t[srtpMasterLength];
 		int ret;
 
 		ret = SSL_export_keying_material(
