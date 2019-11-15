@@ -328,7 +328,8 @@ namespace RTC
 			return this->status;
 		}
 
-		inline FeedbackRtpTransportPacket::TwoBitVectorChunk::TwoBitVectorChunk(const std::vector<Status>& statuses)
+		inline FeedbackRtpTransportPacket::TwoBitVectorChunk::TwoBitVectorChunk(
+		  const std::vector<Status>& statuses)
 		  : statuses(statuses)
 		{
 		}
@@ -338,7 +339,8 @@ namespace RTC
 			return this->statuses.size();
 		}
 
-		inline FeedbackRtpTransportPacket::OneBitVectorChunk::OneBitVectorChunk(const std::vector<Status>& statuses)
+		inline FeedbackRtpTransportPacket::OneBitVectorChunk::OneBitVectorChunk(
+		  const std::vector<Status>& statuses)
 		  : statuses(statuses)
 		{
 		}

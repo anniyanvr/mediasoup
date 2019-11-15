@@ -29,14 +29,14 @@ public:
 			this->store = new uint8_t[storeSize];
 		}
 
+		// Disable copy constructor because of the dynamically allocated data (store).
+		UvWriteData(const UvWriteData&) = delete;
+
 		~UvWriteData()
 		{
 			delete[] this->store;
 			delete this->cb;
 		}
-
-		// Disable copy constructor because of the dynamically allocated data (store).
-		UvWriteData(const UvWriteData&) = delete;
 
 		uv_write_t req;
 		uint8_t* store{ nullptr };

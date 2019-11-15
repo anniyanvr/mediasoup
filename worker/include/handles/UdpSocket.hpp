@@ -14,10 +14,13 @@ public:
 	/* Struct for the data field of uv_req_t when sending a datagram. */
 	struct UvSendData
 	{
-		UvSendData(size_t storeSize)
+		explicit UvSendData(size_t storeSize)
 		{
 			this->store = new uint8_t[storeSize];
 		}
+
+		// Disable copy constructor because of the dynamically allocated data (store).
+		UvSendData(const UvSendData&) = delete;
 
 		~UvSendData()
 		{
