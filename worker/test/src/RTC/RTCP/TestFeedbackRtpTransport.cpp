@@ -19,7 +19,7 @@ struct TestFeedbackRtpTransportInput
 };
 
 void validate(
-  const std::vector<struct TestFeedbackRtpTransportInput> inputs,
+  const std::vector<struct TestFeedbackRtpTransportInput>& inputs,
   std::vector<struct FeedbackRtpTransportPacket::PacketResult> packetResults)
 {
 	auto inputsIterator        = inputs.begin();

@@ -50,7 +50,7 @@ namespace RTC
 				}
 
 				uint16_t sequenceNumber;   // Wide sequence number.
-				int16_t delta;             // Delta.
+				int16_t delta{ 0 };        // Delta.
 				bool received{ false };    // Packet received or not.
 				int32_t receivedAtMs{ 0 }; // Received time (ms) in remote timestamp reference.
 			};
@@ -106,7 +106,7 @@ namespace RTC
 			{
 			public:
 				RunLengthChunk(Status status, uint16_t count);
-				RunLengthChunk(uint16_t buffer);
+				explicit RunLengthChunk(uint16_t buffer);
 
 			public:
 				bool AddDeltas(
@@ -129,7 +129,7 @@ namespace RTC
 			class OneBitVectorChunk : public Chunk
 			{
 			public:
-				OneBitVectorChunk(std::vector<Status> statuses);
+				explicit OneBitVectorChunk(const std::vector<Status>& statuses);
 				OneBitVectorChunk(uint16_t buffer, uint16_t count);
 
 			public:
@@ -151,7 +151,7 @@ namespace RTC
 			class TwoBitVectorChunk : public Chunk
 			{
 			public:
-				TwoBitVectorChunk(std::vector<Status> statuses);
+				explicit TwoBitVectorChunk(const std::vector<Status>& statuses);
 				TwoBitVectorChunk(uint16_t buffer, uint16_t count);
 
 			public:
@@ -328,7 +328,7 @@ namespace RTC
 			return this->status;
 		}
 
-		inline FeedbackRtpTransportPacket::TwoBitVectorChunk::TwoBitVectorChunk(std::vector<Status> statuses)
+		inline FeedbackRtpTransportPacket::TwoBitVectorChunk::TwoBitVectorChunk(const std::vector<Status>& statuses)
 		  : statuses(statuses)
 		{
 		}
@@ -338,7 +338,7 @@ namespace RTC
 			return this->statuses.size();
 		}
 
-		inline FeedbackRtpTransportPacket::OneBitVectorChunk::OneBitVectorChunk(std::vector<Status> statuses)
+		inline FeedbackRtpTransportPacket::OneBitVectorChunk::OneBitVectorChunk(const std::vector<Status>& statuses)
 		  : statuses(statuses)
 		{
 		}
