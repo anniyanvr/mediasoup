@@ -2201,7 +2201,8 @@ namespace RTC
 		// clang-format off
 		if (
 			this->tccClient &&
-			packet->HasExtension(static_cast<uint8_t>(RTC::RtpHeaderExtensionUri::Type::MID))
+			this->tccClient->GetBweType() == RTC::BweType::TRANSPORT_CC &&
+			packet->HasExtension(static_cast<uint8_t>(RTC::RtpHeaderExtensionUri::Type::TRANSPORT_WIDE_CC_01))
 		)
 		// clang-format on
 		{
@@ -2267,7 +2268,8 @@ namespace RTC
 		// clang-format off
 		if (
 			this->tccClient &&
-			packet->HasExtension(static_cast<uint8_t>(RTC::RtpHeaderExtensionUri::Type::MID))
+			this->tccClient->GetBweType() == RTC::BweType::TRANSPORT_CC &&
+			packet->HasExtension(static_cast<uint8_t>(RTC::RtpHeaderExtensionUri::Type::TRANSPORT_WIDE_CC_01))
 		)
 		// clang-format on
 		{
